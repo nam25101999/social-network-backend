@@ -1,7 +1,7 @@
-const db = require('../config/db');
+import db from '../config/db.js'; // Cập nhật theo chuẩn ES Module
 
 // Thêm bình luận
-exports.addComment = (req, res) => {
+export const addComment = (req, res) => {
   const { content } = req.body;
   const postId = req.params.postId;
   const userId = req.user.id;
@@ -18,7 +18,7 @@ exports.addComment = (req, res) => {
 };
 
 // Lấy danh sách bình luận theo bài viết
-exports.getCommentsByPost = (req, res) => {
+export const getCommentsByPost = (req, res) => {
   const postId = req.params.postId;
 
   const sql = `
@@ -35,3 +35,7 @@ exports.getCommentsByPost = (req, res) => {
   });
 };
 
+export default {
+  getCommentsByPost,
+  addComment,
+};

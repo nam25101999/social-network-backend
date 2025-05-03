@@ -1,7 +1,7 @@
-const db = require('../config/db');
+import db from '../config/db.js';
 
 // Tạo bài viết mới
-const createPost = (req, res) => {
+export const createPost = (req, res) => {
   const { content, image_url } = req.body;
   const user_id = req.user.id;
 
@@ -17,7 +17,7 @@ const createPost = (req, res) => {
 };
 
 // Lấy bài viết của người đang đăng nhập
-const getMyPosts = (req, res) => {
+export const getMyPosts = (req, res) => {
   const sql = "SELECT * FROM posts WHERE user_id = ? ORDER BY created_at DESC";
   db.query(sql, [req.user.id], (err, results) => {
     if (err) return res.status(500).json({ message: 'Lỗi khi lấy bài viết.' });
@@ -26,15 +26,14 @@ const getMyPosts = (req, res) => {
 };
 
 // Lấy bài viết của người khác
-const getPostsByUser = (req, res) => {
+export const getPostsByUser = (req, res) => {
   const sql = "SELECT * FROM posts WHERE user_id = ? ORDER BY created_at DESC";
   db.query(sql, [req.params.userId], (err, results) => {
     if (err) return res.status(500).json({ message: 'Lỗi khi lấy bài viết người dùng.' });
     res.json({ posts: results });
   });
 };
-
-module.exports = {
+export default {
   createPost,
   getMyPosts,
   getPostsByUser

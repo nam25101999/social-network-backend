@@ -1,33 +1,25 @@
 import express from 'express';
-import { 
-    register,
-    login, 
-    updateAvatar,
-    logout,
-    getUserInfo,
-    updateProfile,
-} from '../controllers/userController.js';
+import multer from 'multer';
 import authenticate from '../middlewares/authenticate.js';
-import upload from '../middlewares/upload.js';
+import { updateAvatar } from '../controllers/userController.js'; // Cập nhật import với hàm updateAvatar
 
-const router = express.Router();
-
-// Đăng ký và đăng nhập
-router.post('/register', register);
-router.post('/login', login);
-router.post('/logout', authenticate, logout);
-router.get('/me', authenticate, getUserInfo);
-router.put('/update', authenticate, updateProfile);
-
-// Route test bảo mật (chỉ cho người dùng đã đăng nhập)
-router.get('/profile', authenticate, (req, res) => {
-  res.json({
-    message: 'Lấy thông tin người dùng thành công!',
-    user: req.user
-  });
+// Cấu hình nơi lưu trữ và tên file
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Lưu trữ ảnh trong thư mục 'uploads'
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname); // Đặt tên file theo thời gian
+  }
 });
 
-// Đổi avatar
+// Khởi tạo upload middleware
+const upload = multer({ storage });
+
+// Tạo router
+const router = express.Router();
+
+// Tạo route upload ảnh đại diện
 router.post('/avatar', authenticate, upload.single('avatar'), updateAvatar);
 
 export default router;

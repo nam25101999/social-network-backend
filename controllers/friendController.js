@@ -1,8 +1,7 @@
-// controllers/friendController.js
-const db = require('../config/db');
+import db from '../config/db.js';
 
 // Gửi lời mời kết bạn
-const sendFriendRequest = (req, res) => {
+export const sendFriendRequest = (req, res) => {
   const sender_id = req.user.id;
   const { receiver_id } = req.body;
 
@@ -25,7 +24,7 @@ const sendFriendRequest = (req, res) => {
 };
 
 // Xác nhận lời mời kết bạn
-const acceptFriendRequest = (req, res) => {
+export const acceptFriendRequest = (req, res) => {
   const { request_id } = req.params;
   const userId = req.user.id;
 
@@ -37,7 +36,7 @@ const acceptFriendRequest = (req, res) => {
 };
 
 // Từ chối lời mời
-const rejectFriendRequest = (req, res) => {
+export const rejectFriendRequest = (req, res) => {
   const { request_id } = req.params;
   const userId = req.user.id;
 
@@ -49,7 +48,7 @@ const rejectFriendRequest = (req, res) => {
 };
 
 // Lấy danh sách lời mời kết bạn đang chờ
-const getPendingRequests = (req, res) => {
+export const getPendingRequests = (req, res) => {
   const userId = req.user.id;
 
   const query = `SELECT fr.id, u.username, u.avatar 
@@ -61,11 +60,4 @@ const getPendingRequests = (req, res) => {
     if (err) return res.status(500).json({ message: 'Lỗi truy vấn lời mời', error: err });
     res.status(200).json({ requests: results });
   });
-};
-
-module.exports = {
-  sendFriendRequest,
-  acceptFriendRequest,
-  rejectFriendRequest,
-  getPendingRequests,
 };
