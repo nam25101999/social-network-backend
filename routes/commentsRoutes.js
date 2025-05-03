@@ -1,13 +1,13 @@
-// routes/commentsRoutes.js
-const express = require('express');
+import express from 'express';
+import { addComment, getCommentsByPost } from '../controllers/commentsController.js';
+import authenticateToken from '../middlewares/authenticate.js';
+
 const router = express.Router();
-const commentsController = require('../controllers/commentsController');
-const authenticateToken = require('../middlewares/authenticate');
 
 // POST: Thêm bình luận cho bài viết
-router.post('/posts/:postId/comments', authenticateToken, commentsController.addComment);
+router.post('/posts/:postId/comments', authenticateToken, addComment);
 
 // GET: Lấy danh sách bình luận của bài viết
-router.get('/posts/:postId/comments', commentsController.getCommentsByPost);
+router.get('/posts/:postId/comments', getCommentsByPost);
 
-module.exports = router;
+export default router;
