@@ -29,7 +29,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/friends', friendRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api', commentsRoutes);
-
+app.get('/test', (req, res) => {
+  res.send('API is working');
+});
 app.listen(PORT, () => {
   console.log(`🚀 Server chạy tại http://localhost:${PORT}`);
 });
