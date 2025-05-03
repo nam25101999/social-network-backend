@@ -33,8 +33,17 @@ export const getPostsByUser = (req, res) => {
     res.json({ posts: results });
   });
 };
+export const getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find().populate('userId', 'username');
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi khi lấy danh sách bài viết' });
+  }
+};
 export default {
   createPost,
   getMyPosts,
-  getPostsByUser
+  getPostsByUser,
+  getAllPosts
 };
