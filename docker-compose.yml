@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  # Backend Service
+  backend:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - DB_HOST=localhost  # Nếu bạn muốn kết nối đến MySQL trên máy thật
+      - DB_USER=root
+      - DB_PASSWORD=
+      - DB_NAME=social_network_db
+      - JWT_SECRET=keynaylacuanguyenbahoainamtaonecacban
+    volumes:
+      - .:/app
+    networks:
+      - social_network
+
+networks:
+  social_network:
+    driver: bridge
